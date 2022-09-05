@@ -1,0 +1,33 @@
+GET http://localhost:8080/tasks
+
+
+###
+
+POST http://localhost:8080/tasks
+content-type: application/json
+
+{
+    "title": "New Task",
+    "description": "A new Task",
+    "status": "ongoing"
+}
+
+
+###
+
+GET http://localhost:8080/tasks/fff570be-0308-4d62-8078-300ff26b4d01
+
+
+###
+PUT http://localhost:8080/tasks/fff570be-0308-4d62-8078-300ff26b4d01
+content-type: application/json
+
+{
+    "title": "Updated New Task",
+    "description": "A new Task",
+    "status": "done"
+}
+
+###
+
+DELETE http://localhost:8080/tasks/ccf485fc-7f2c-4e6f-a9dd-88b44341f261
