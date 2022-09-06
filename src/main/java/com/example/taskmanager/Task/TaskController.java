@@ -2,6 +2,7 @@ package com.example.taskmanager.Task;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Task getSingleTask(@PathVariable("id") String id){
+    public Optional<Task> getSingleTask(@PathVariable("id") String id){
         return taskService.getByTaskId(id);
     }
 
@@ -37,19 +38,12 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable("id") String id, @RequestBody Task task){
-        Task updatedTask = taskService.getByTaskId(id);
-        updatedTask.setTitle(task.getTitle());
-        updatedTask.setDescription(task.getDescription());
-        updatedTask.setStatus(task.getStatus());
-
-        updatedTask.setUpdatedAt(LocalDateTime.now());
-        
-        return updatedTask;
+    public Task updateTask(@PathVariable("id") String id, @RequestBody Task task){        
+        return taskService.updateTaskById(id,task);
     }
 
     @DeleteMapping("/{id}")
-    public Task deleteTask(@PathVariable("id") String id){
+    public Optional<Task> deleteTask(@PathVariable("id") String id){
         return taskService.deleteTask(id);
     }
 

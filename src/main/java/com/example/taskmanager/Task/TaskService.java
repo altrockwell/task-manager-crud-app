@@ -1,9 +1,11 @@
 package com.example.taskmanager.Task;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,20 +32,27 @@ public class TaskService {
 
     
 
-    public Task deleteTask(String id){
+    public Optional<Task> deleteTask(String id){
         Optional<Task> task = taskRepository.findById(id);
-
-
-        if(!task.isPresent() || task.isEmpty()){
-            throw new IllegalStateException("Task is not found!");
-        }
         taskRepository.deleteById(id);
-        return task.get();
+        return task;
     }
 
     
-    public Task getByTaskId(String id){
-        Optional<Task> task = taskRepository.findById(id);
-        return task.get();
+    public Optional<Task> getByTaskId(String id){
+        return taskRepository.findById(id);
+    }
+
+    @Modifying
+    public Task updateTaskById(String id, Task updatedTask){
+        Optional<Task> foundTask = taskRepository.findById(id);
+        Task task = foundTask.get();
+        task.setTitle(updatedTask.getTitle());
+        task.setDescription(updatedTask.getDescription());
+        task.setStatus(updatedTask.getStatus());
+
+        task.setUpdatedAt(LocalDateTime.now());
+
+        return task;
     }
 }
